@@ -49,6 +49,11 @@ RUN apt-get update \
 WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
 
+# instalar dependências do postgres
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip install psycopg2
+
 # quicker install as runtime deps are already installed
 RUN  poetry install --no-root
 

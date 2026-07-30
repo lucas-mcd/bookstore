@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 from order.models import Order
@@ -17,6 +18,12 @@ class OrderViewSetTest(APITestCase):
         user = User.objects.create_user(
             username="lucas",
             password="123456"
+        )
+
+        token = Token.objects.create(user=user)
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {token.key}"
         )
 
         payload = {
@@ -50,10 +57,16 @@ class OrderViewSetTest(APITestCase):
             password="123456"
         )
 
+        token = Token.objects.create(user=user)
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {token.key}"
+        )
+
         order = Order.objects.create(user=user)
         order.product.add(product)
 
         response = self.client.get("/bookstore/v1/order/")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data["results"]), 1)

@@ -1,47 +1,83 @@
-# Bookstore
+# Bookstore API
 
-Bookstore APP from Backend Python course from EBAC
+Bookstore API developed during the Backend Python course at EBAC using Django REST Framework.
+
+This project provides an API for managing bookstore resources, including products, categories, and orders.
+
+## Technologies
+
+- Python 3.10+
+- Django 5.2
+- Django REST Framework
+- PostgreSQL
+- Poetry
+- Docker & Docker Compose
+- Gunicorn
+- WhiteNoise
+- GitHub Actions
+- Render (Deployment)
 
 ## Prerequisites
 
-```
-Python 3.5>
-Poetry
-Docker && docker-compose
+Before running this project, make sure you have installed:
 
-```
+
+Python 3.10+
+Poetry
+Docker
+Docker Compose
+
 
 ## Quickstart
 
-1. Clone this project
+### 1. Clone this project
 
-   ```shell
-   git clone git@github.com:drsantos20/bookstore.git
-   ```
+```shell
+git clone https://github.com/lucas-mcd/bookstore.git
+2. Access the project folder
+cd bookstore
+3. Install dependencies
+poetry install
+4. Apply database migrations
+poetry run python manage.py migrate
+5. Run local development server
+poetry run python manage.py runserver
 
-2. Install dependencies:
+The application will be available at:
 
-   ```shell
-   cd bookstore
-   poetry install
-   ```
+http://127.0.0.1:8000/
+Running with Docker
 
-3. Run local dev server:
+Build and start the containers:
 
-   ```shell
-   poetry run manage.py migrate
-   poetry run python manage.py runserver
-   ```
-   
-4. Run docker dev server environment:
+docker-compose up -d --build
 
-   ```shell
-   docker-compose up -d --build 
-   docker-compose exec web python manage.py migrate
-   ```
+Run migrations inside the container:
 
-5. Run tests inside of docker:
+docker-compose exec web python manage.py migrate
+Running Tests
 
-   ```shell
-   docker-compose exec web python manage.py test
-   ```
+Run tests locally:
+
+poetry run pytest
+
+Or inside Docker:
+
+docker-compose exec web pytest
+Deployment
+
+The application is configured for continuous deployment using Render.
+
+Every update merged into the main branch triggers a new deployment automatically.
+
+Static files are handled using WhiteNoise and collected during the build process.
+
+Continuous Integration
+
+This project uses GitHub Actions to validate changes before deployment.
+
+The workflow automatically:
+
+Installs project dependencies
+Checks Django configuration
+Runs automated tests

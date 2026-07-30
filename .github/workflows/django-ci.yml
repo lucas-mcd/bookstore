@@ -29,9 +29,16 @@ jobs:
         run: poetry install
 
       - name: Run Django checks
+        env:
+          SECRET_KEY: "django-test-secret-key"
+          DEBUG: "1"
+          DJANGO_ALLOWED_HOSTS: "localhost 127.0.0.1"
         run: poetry run python manage.py check
 
       - name: Run tests
         env:
           DJANGO_SETTINGS_MODULE: bookstore.settings
+          SECRET_KEY: "django-test-secret-key"
+          DEBUG: "1"
+          DJANGO_ALLOWED_HOSTS: "localhost 127.0.0.1"
         run: poetry run pytest

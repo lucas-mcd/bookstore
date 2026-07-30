@@ -32,4 +32,6 @@ jobs:
         run: poetry run python manage.py check
 
       - name: Run tests
+        env:
+          DJANGO_SETTINGS_MODULE: bookstore.settings
         run: poetry run pytest
